@@ -1,0 +1,60 @@
+{
+    "head0": {
+        "type": "header",
+        "description": "Settings for nutmonitor@radius17"
+    },
+
+    "head1": {
+        "type": "header",
+        "description": "General"
+    },
+    "main-text-size": {
+        "type": "spinbutton",
+        "default": 22,
+        "min": 12,
+        "max": 72,
+        "step": 1,
+        "units": "px",
+        "description": "Main text size",
+        "tooltip": "Increase or decrease the main text size of this desklet using this scale factor."
+    },
+    "main-text-color": {
+        "type": "colorchooser",
+        "default" : "rgb(255,255,255)",
+        "description": "Main text color",
+        "tooltip": "Customize main text color..."
+    },
+    "chrg-text-color": {
+        "type": "colorchooser",
+        "default" : "rgb(255,255,0)",
+        "description": "Charging text color",
+        "tooltip": "Customize charging text color..."
+    },
+    "err-text-color": {
+        "type": "colorchooser",
+        "default" : "rgb(255,0,0)",
+        "description": "Error text color",
+        "tooltip": "Customize error text color..."
+    },
+    "refresh-period": {
+        "type": "spinbutton",
+        "default": 5,
+        "min": 5,
+        "max": 120,
+        "step": 5,
+        "units": "seconds",
+        "description": "Refresh period",
+        "tooltip": ""
+    },
+    "ups-name": {
+        "type": "entry",
+        "default": "my-ups@localhost",
+        "description": "UPS name",
+        "tooltip" : "Set your UPS name here."
+    },
+   "in-debug" : {
+        "type" : "switch",
+        "default" : false,
+        "description": "Debug log"
+    }
+}

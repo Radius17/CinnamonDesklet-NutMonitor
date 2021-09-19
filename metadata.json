@@ -1,0 +1,9 @@
+{
+    "max-instances": "10",
+    "description": "Displays the usage of battery via nut.",
+    "name": "Nut monitor",
+    "version": "1.01",
+    "uuid": "nutmonitor@radius17",
+    "author": "radius17",
+    "last-edited": 1628250018
+}
