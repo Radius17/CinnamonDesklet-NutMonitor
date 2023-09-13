@@ -69,22 +69,29 @@ MyNutMonitorDesklet.prototype = {
     this.update();
   },
 
-  redraw: function (device_model, battery_charge, ups_status) {
+  redraw: function (ups_data) {
     this.my_debug("function redraw in " + UUID);
 
-    if (ups_status == "OL") {
-      ups_status = _("Online");
+    ups_data["ups.output.power"] = "-";
+    let ups_load = parseInt(ups_data["ups.load"]);
+    let ups_realpower_nominal = parseInt(ups_data["ups.realpower.nominal"]);
+    let ups_output_power = ups_realpower_nominal*ups_load/100;
+
+    if (ups_data["ups.status"] == "OL") {
+      ups_data["ups.status"] = _("Online");
       this.text_color = this.main_text_color;
-    } else if (ups_status == "OL CHRG") {
-      ups_status = _("Charging");
+    } else if (ups_data["ups.status"] == "OL CHRG") {
+      ups_data["ups.status"] = _("Charging");
       this.text_color = this.chrg_text_color;
     } else {
       this.text_color = this.err_text_color;
     }
 
-    let main_text = _("Model") + ": " + device_model
-      + "\n" + _("Battery charge") + ": " + battery_charge + "%"
-      + "\n" + _("UPS status") + ": " + ups_status
+    let main_text = _("Model") + ": " + ups_data["device.model"]
+      + "\n" + _("Battery charge") + ": " + ups_data["battery.charge"] + "%"
+      + "\n" + _("UPS status") + ": " + ups_data["ups.status"]
+      + "\n" + _("UPS load") + ": " + ups_data["ups.load"] + "%"
+      + "\n" + _("Power load") + ": " + ups_output_power + "W"
       ;
 
     this.main_text.set_text(main_text);
@@ -119,10 +126,7 @@ MyNutMonitorDesklet.prototype = {
     });
     subprocess.init(null);
     subprocess.wait_async(null, (sourceObject, res) => {
-      let device_model = "-";
-      let battery_charge = "-";
-      let ups_status = "-";
-
+      let ups_data = { "device.model":"-", "battery.charge" : "-", "ups.status": "-", "ups.load": "-", "ups.realpower.nominal": "-"};
       let [, stdOut, stdErr] = sourceObject.communicate_utf8(null, null);
       // global.log(stdOut.trim()); // global.logError(stdErr);
       let upslines = stdOut.trim().split(/\r?\n/);
@@ -131,20 +135,14 @@ MyNutMonitorDesklet.prototype = {
         for (var i = 0; i < upslines.length; i++) {
           let upsline = upslines[i].trim().split(':');
           if (upsline.length == 2) {
-            if (upsline[0] == 'battery.charge') {
-              battery_charge = upsline[1].trim();
-            }
-            else if (upsline[0] == 'ups.status') {
-              ups_status = upsline[1].trim();
-            }
-            else if (upsline[0] == 'device.model') {
-              device_model = upsline[1].trim();
+            if (upsline[0] == 'device.model' || upsline[0] == 'battery.charge' || upsline[0] == 'ups.load' || upsline[0] == 'ups.status' || upsline[0] == 'ups.realpower.nominal') {
+              ups_data[upsline[0]] = upsline[1].trim();
             }
           }
         }
       }
       // redrawing
-      this.redraw(device_model, battery_charge, ups_status);
+      this.redraw(ups_data);
     });
   },
 
