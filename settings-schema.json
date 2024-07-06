@@ -52,6 +52,26 @@
         "description": "UPS name",
         "tooltip" : "Set your UPS name here."
     },
+    "hide-decorations": {
+        "type": "checkbox",
+        "description": "Hide decorations",
+        "default": false
+    },
+    "use-custom-label": {
+        "type": "checkbox",
+        "default": false,
+        "description": "Use a custom desklet label",
+        "tooltip": "Checking this box allows you to set a custom label in the field below.",
+        "value": false
+    },
+    "custom-label": {
+        "type": "entry",
+        "default": "UPS monitor",
+        "description": "Custom desklet label",
+        "indent": true,
+        "dependency": "use-custom-label",
+        "tooltip": "Set your custom label here. This field is unavailable unless the checkbox above is enabled."
+    },
    "in-debug" : {
         "type" : "switch",
         "default" : false,

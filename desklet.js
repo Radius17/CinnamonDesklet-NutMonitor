@@ -47,6 +47,9 @@ MyNutMonitorDesklet.prototype = {
     this.settings.bindProperty(Settings.BindingDirection.IN, "err-text-color", "err_text_color", this.on_setting_changed);
     this.settings.bindProperty(Settings.BindingDirection.IN, "refresh-period", "refresh_period", this.on_setting_changed);
     this.settings.bindProperty(Settings.BindingDirection.IN, "ups-name", "ups_name", this.on_setting_changed);
+    this.settings.bindProperty(Settings.BindingDirection.IN, "hide-decorations", "hide_decorations", this.on_setting_changed);
+    this.settings.bindProperty(Settings.BindingDirection.IN, "use-custom-label", "use_custom_label", this.on_setting_changed);
+    this.settings.bindProperty(Settings.BindingDirection.IN, "custom-label", "custom_label", this.on_setting_changed);
     this.settings.bindProperty(Settings.BindingDirection.IN, "in-debug", "in_debug", this.on_setting_changed);
 
     this.setupUI();
@@ -100,13 +103,15 @@ MyNutMonitorDesklet.prototype = {
 
   refreshDecoration: function () {
     this.my_debug("function refreshDecoration in " + UUID);
-    this.setHeader(this.ups_name);
-    /*
-        // prevent decorations?
-        this.metadata["prevent-decorations"] = this.hide_decorations;
-        this._updateDecoration();
-    */
 
+    if(this.use_custom_label == true)
+      this.setHeader(this.custom_label)
+    else
+      this.setHeader(this.ups_name);
+
+    // prevent decorations?
+    this.metadata["prevent-decorations"] = this.hide_decorations;
+    this._updateDecoration();
   },
 
   refreshDesklet: function () {
