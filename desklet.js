@@ -100,11 +100,13 @@ MyNutMonitorDesklet.prototype = {
 
   refreshDecoration: function () {
     this.my_debug("function refreshDecoration in " + UUID);
+    this.setHeader(this.ups_name);
     /*
         // prevent decorations?
         this.metadata["prevent-decorations"] = this.hide_decorations;
         this._updateDecoration();
     */
+
   },
 
   refreshDesklet: function () {
